@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#4a1222">
+<meta name="description" content="A little birthday book made especially for Ayesha.">
+<title>For Ayesha — A Birthday Book</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Italianno&display=swap');
+
+:root{
+  --wine:#4a1222; --wine2:#6f1e34; --deep:#230912;
+  --paper:#f4e7d2; --paper2:#ead8bd; --ink:#3b211e;
+  --gold:#b68b58; --muted:#7e6251; --cream:#fff8ef;
+  --shadow:0 28px 70px rgba(0,0,0,.42);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--deep)}
+body{
+  color:#f7ead9;
+  font-family:"Cormorant Garamond",Georgia,serif;
+  overflow-x:hidden;
+  background:radial-gradient(circle at 50% 12%,#7a263d 0,#4a1222 42%,#1d060c 100%);
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.07;
+  background-image:radial-gradient(rgba(255,255,255,.8) .7px,transparent .7px);
+  background-size:5px 5px;
+}
+button{font:inherit}
+.scene{
+  min-height:100svh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:24px 14px 32px;position:relative;
+}
+.heading{text-align:center;margin:0 0 14px;z-index:2}
+.heading .eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;opacity:.8}
+.heading h1{font-family:Italianno,cursive;font-weight:400;font-size:clamp(3.3rem,8vw,6.2rem);line-height:.8;margin:7px 0 0;color:#efc5b4}
+.heading p{margin:10px 0 0;opacity:.75;font-size:15px}
+
+.book-shell{
+  width:min(1080px,96vw);height:min(680px,70svh);min-height:470px;
+  position:relative;perspective:1800px;
+}
+.book{
+  width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  filter:drop-shadow(0 35px 45px rgba(0,0,0,.35));
+}
+.panel{
+  position:absolute;top:0;bottom:0;width:50%;overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(255,255,255,.5),transparent 28%),
+    repeating-linear-gradient(0deg,rgba(80,45,28,.025) 0 1px,transparent 1px 4px),
+    var(--paper);
+  color:var(--ink);border:1px solid rgba(67,35,24,.25);
+  box-shadow:inset 0 0 35px rgba(83,46,27,.13);
+  backface-visibility:hidden;transform-style:preserve-3d;
+}
+.panel.left{left:0;border-radius:12px 2px 2px 12px;transform-origin:right center}
+.panel.right{right:0;border-radius:2px 12px 12px 2px;transform-origin:left center}
+.cover{
+  background:linear-gradient(135deg,rgba(255,255,255,.07),transparent 28%),linear-gradient(90deg,#2a0710,#5b1628);
+  border:5px solid #210711;box-shadow:inset 0 0 0 3px rgba(182,139,88,.32),inset 0 0 40px rgba(0,0,0,.45);
+  color:#e6c79e;
+}
+.cover::after{content:"";position:absolute;inset:18px;border:1px solid rgba(205,169,113,.48);pointer-events:none}
+.cover-content{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;z-index:2}
+.cover-content h2{font-size:clamp(2rem,5vw,4.7rem);line-height:.9;letter-spacing:.06em;text-transform:uppercase;margin:0}
+.cover-content h2 span{display:block;font-family:Italianno,cursive;text-transform:none;letter-spacing:0;font-size:1.3em;margin-top:9px}
+.cover-deco{position:absolute;bottom:28px;left:0;right:0;text-align:center;font-size:20px;letter-spacing:9px;opacity:.75}
+.spine{
+  position:absolute;left:50%;top:-1%;height:102%;width:24px;transform:translateX(-50%);
+  z-index:30;background:linear-gradient(90deg,#19050b,#8a3448,#260810);
+  box-shadow:0 0 18px rgba(0,0,0,.4);pointer-events:none;
+}
+.content{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:7% 9%;overflow:auto;scrollbar-width:thin;
+}
+.content::-webkit-scrollbar{width:5px}.content::-webkit-scrollbar-thumb{background:#7b4050;border-radius:10px}
+.page-inner{width:100%;max-height:100%;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8a5d4d;margin-bottom:13px}
+.title{font-size:clamp(1.65rem,3.1vw,3rem);line-height:1.02;color:#641a2b;margin:0 0 18px;font-weight:700}
+.text{font-size:clamp(1.05rem,1.7vw,1.38rem);line-height:1.42;max-width:620px;margin:0}
+.text em{font-family:Italianno,cursive;font-size:1.55em;color:#771f35}
+.quote{font-size:clamp(1.35rem,2.6vw,2.25rem);line-height:1.15;font-style:italic;color:#6a2331;max-width:600px}
+.signature{margin-top:22px;color:#8a5d4d;font-size:16px}
+.ornament{font-size:24px;margin:7px 0 15px;letter-spacing:7px;color:#a36e4f}
+.list{font-size:clamp(1rem,1.6vw,1.25rem);line-height:1.45;text-align:left;max-width:610px;margin:0 auto}
+.list div{margin:9px 0}.list b{color:#691b2d}
+.big{font-size:clamp(2.2rem,5vw,4.2rem);line-height:.9;color:#65192c;margin:0}
+.big small{display:block;font-family:Italianno,cursive;font-size:1.05em;color:#9a4d5c;margin-top:8px}
+.sticker{
+  position:absolute;z-index:4;display:grid;place-items:center;width:64px;height:64px;
+  border-radius:18px;background:#fff9e9;box-shadow:0 7px 16px rgba(75,38,25,.18);
+  border:2px solid rgba(115,53,63,.18);font-size:31px;transform:rotate(-8deg);
+}
+.sticker.s1{top:9%;right:8%}.sticker.s2{bottom:11%;left:8%;transform:rotate(9deg)}
+.sticker.s3{top:12%;left:7%;transform:rotate(-12deg)}.sticker.s4{bottom:10%;right:8%;transform:rotate(10deg)}
+.sticker.s5{top:8%;right:10%;transform:rotate(7deg)}
+.note{
+  font-family:Italianno,cursive;font-size:clamp(2rem,4vw,3.3rem);color:#7a3040;text-align:center;
+}
+.note small{display:block;font-family:"Cormorant Garamond",serif;font-size:16px;margin-top:10px;color:#806151;font-style:normal}
+.page-no{position:absolute;bottom:13px;font-size:12px;color:#8b6c59;opacity:.7}
+.left .page-no{left:22px}.right .page-no{right:22px}
+
+.controls{display:flex;align-items:center;gap:12px;margin-top:18px;z-index:3}
+.controls button{
+  border:1px solid rgba(231,195,155,.38);background:rgba(38,7,15,.42);color:#f7e8d4;
+  border-radius:999px;padding:10px 18px;cursor:pointer;transition:transform .18s,background .18s;
+  min-width:108px;backdrop-filter:blur(8px)
+}
+.controls button:hover:not(:disabled){transform:translateY(-2px);background:rgba(100,27,47,.75)}
+.controls button:disabled{opacity:.35;cursor:not-allowed}
+.progress{font-size:13px;opacity:.75;min-width:70px;text-align:center}
+.hint{font-size:12px;opacity:.58;margin-top:9px;text-align:center}
+
+.open-overlay{
+  position:absolute;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#2a0710,#5b1628);border-radius:12px;cursor:pointer;
+  transition:opacity .7s,visibility .7s;box-shadow:var(--shadow)
+}
+.open-overlay.hide{opacity:0;visibility:hidden;pointer-events:none}
+.open-card{text-align:center;color:#efd3b3}
+.open-card .flower{font-size:55px;display:block;animation:float 2.6s ease-in-out infinite}
+.open-card strong{display:block;font-size:22px;letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
+.open-card span{display:block;margin-top:6px;opacity:.72}
+@keyframes float{50%{transform:translateY(-8px) rotate(3deg)}}
+
+.sparkles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.sparkles i{position:absolute;font-style:normal;opacity:.35;animation:drift 8s linear infinite}
+@keyframes drift{from{transform:translateY(105vh) rotate(0)}to{transform:translateY(-10vh) rotate(180deg)}}
+
+.flip-next{animation:flipNext .72s cubic-bezier(.2,.75,.25,1)}
+.flip-prev{animation:flipPrev .72s cubic-bezier(.2,.75,.25,1)}
+@keyframes flipNext{0%{transform:rotateY(0)}50%{transform:rotateY(-88deg)}100%{transform:rotateY(0)}}
+@keyframes flipPrev{0%{transform:rotateY(0)}50%{transform:rotateY(88deg)}100%{transform:rotateY(0)}}
+
+@media(max-width:720px){
+  .scene{padding:16px 8px 20px;justify-content:center}
+  .heading{margin-bottom:10px}.heading h1{font-size:3.5rem}.heading p{font-size:13px}
+  .book-shell{width:98vw;height:68svh;min-height:500px}
+  .panel{width:50%}.spine{width:16px}
+  .content{padding:10% 9%}.title{font-size:clamp(1.25rem,4.8vw,2rem);margin-bottom:13px}
+  .text{font-size:clamp(.88rem,3.5vw,1.12rem);line-height:1.34}
+  .quote{font-size:clamp(1.05rem,4vw,1.5rem)}
+  .sticker{width:48px;height:48px;border-radius:14px;font-size:23px}
+  .sticker.s1{right:4%;top:5%}.sticker.s2{left:4%;bottom:7%}.sticker.s3{left:4%;top:5%}.sticker.s4{right:4%;bottom:7%}
+  .controls{margin-top:12px}.controls button{min-width:88px;padding:9px 13px}.hint{display:none}
+}
+@media(max-height:650px) and (orientation:landscape){
+  .scene{padding:8px}.heading{display:none}.book-shell{height:82svh;min-height:350px}.controls{margin-top:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+
+/* birthday reveal */
+.birthday-reveal,.game-screen,.final-screen{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 35%,#8f304d 0,#4a1222 48%,#18050b 100%);
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .7s ease,visibility .7s ease;
+}
+.birthday-reveal.show,.game-screen.show,.final-screen.show{opacity:1;visibility:visible;pointer-events:auto}
+.birthday-reveal.hide,.game-screen.hide,.final-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
+.reveal-inner{text-align:center;position:relative;padding:28px;max-width:900px}
+.reveal-small{font-size:14px;letter-spacing:.28em;text-transform:uppercase;opacity:.78;animation:revealUp .8s both}
+.reveal-title{font-family:Italianno,cursive;font-size:clamp(4rem,12vw,9rem);line-height:.78;font-weight:400;margin:22px 0 16px;color:#ffe1ce;text-shadow:0 8px 30px rgba(0,0,0,.25);animation:revealPop 1.1s .35s both}
+.reveal-name{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,5vw,4.2rem);font-weight:700;letter-spacing:.08em;color:#f7c6b5;animation:revealUp 1s .8s both}
+.reveal-line{font-size:clamp(1rem,2.5vw,1.4rem);margin-top:18px;opacity:.82;animation:revealUp 1s 1.15s both}
+.reveal-hearts{font-size:32px;letter-spacing:12px;margin-top:26px;animation:heartPulse 1.4s 1.3s infinite}
+@keyframes revealPop{0%{opacity:0;transform:scale(.55) translateY(25px)}70%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes revealUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes heartPulse{50%{transform:scale(1.12)}}
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.confetti i{position:absolute;top:-30px;font-style:normal;font-size:22px;animation:confettiFall 4s linear infinite}
+@keyframes confettiFall{to{transform:translateY(115vh) rotate(360deg);opacity:.1}}
+
+/* cute game */
+.game-inner{width:min(720px,92vw);text-align:center;color:#f8e7d5}
+.game-inner h2{font-family:Italianno,cursive;font-size:clamp(3.2rem,8vw,5.5rem);font-weight:400;margin:0;color:#ffd7c7}
+.game-inner p{font-size:18px;opacity:.82;margin:7px 0}
+.game-stats{display:flex;justify-content:center;gap:28px;margin:18px 0;font-size:17px}
+.game-board{height:min(55vh,420px);min-height:280px;border:2px solid rgba(255,220,199,.28);border-radius:28px;background:rgba(255,248,239,.08);position:relative;overflow:hidden;box-shadow:inset 0 0 40px rgba(0,0,0,.16)}
+.heart-target{position:absolute;border:0;background:transparent;font-size:38px;cursor:pointer;filter:drop-shadow(0 5px 9px rgba(0,0,0,.22));animation:targetIn .25s ease-out;touch-action:manipulation}
+.heart-target:active{transform:scale(.8)}
+@keyframes targetIn{from{opacity:0;transform:scale(.3) rotate(-20deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.game-start,.game-again,.final-btn{border:1px solid rgba(255,225,210,.45);background:rgba(255,235,220,.12);color:#fff0e5;border-radius:999px;padding:11px 24px;cursor:pointer;margin-top:14px;font-size:16px}
+.game-start:hover,.game-again:hover,.final-btn:hover{background:rgba(255,235,220,.22);transform:translateY(-2px)}
+.game-message{min-height:28px;margin-top:10px;font-family:Italianno,cursive;font-size:28px;color:#ffd5c3}
+.game-hidden{display:none!important}
+
+.final-screen{background:#14040a;transition:opacity 2.4s ease,visibility 2.4s ease}
+.final-inner{text-align:center;color:#f8e7d5;padding:30px;animation:finalRise 1.4s ease both}
+.final-inner h2{font-family:Italianno,cursive;font-size:clamp(4rem,10vw,8rem);font-weight:400;line-height:.8;margin:0 0 18px;color:#ffd9ca}
+.final-inner p{font-size:clamp(1.2rem,3vw,1.8rem);margin:9px 0;opacity:.86}
+.final-inner .love{font-family:Italianno,cursive;font-size:clamp(2.5rem,6vw,4.5rem);color:#f4a8a0;margin-top:20px}
+@keyframes finalRise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+body.fade-away>*{transition:opacity 2.5s ease!important;opacity:0!important}
+</style>
+</head>
+<body>
+<div class="sparkles" aria-hidden="true">
+  <i style="left:7%;animation-delay:0s">✦</i><i style="left:19%;animation-delay:2s">♡</i>
+  <i style="left:37%;animation-delay:4s">✧</i><i style="left:63%;animation-delay:1s">♡</i>
+  <i style="left:82%;animation-delay:3s">✦</i><i style="left:92%;animation-delay:5s">❀</i>
+</div>
+
+
+<div class="birthday-reveal" id="birthdayReveal" aria-hidden="true">
+  <div class="confetti" aria-hidden="true">
+    <i style="left:8%;animation-delay:.2s">♡</i><i style="left:18%;animation-delay:1.2s">✦</i><i style="left:30%;animation-delay:.5s">❀</i><i style="left:44%;animation-delay:1.8s">♡</i><i style="left:58%;animation-delay:.9s">✦</i><i style="left:72%;animation-delay:2.1s">🌸</i><i style="left:84%;animation-delay:.7s">♡</i><i style="left:94%;animation-delay:1.5s">✦</i>
+  </div>
+  <div class="reveal-inner">
+    <div class="reveal-small">A little surprise for you</div>
+    <div class="reveal-title">Happy Birthday</div>
+    <div class="reveal-name">MERI JAAN AYESHA</div>
+    <div class="reveal-line">Aaj ka din sirf aap ke naam hai ♡</div>
+    <div class="reveal-hearts">♡ ✦ ♡</div>
+  </div>
+</div>
+
+<div class="game-screen" id="gameScreen" aria-hidden="true">
+  <div class="game-inner">
+    <div class="kicker" style="color:#f0bda9">one tiny game for you</div>
+    <h2>Catch My Hearts ♡</h2>
+    <p>Tap the hearts before they disappear</p>
+    <div class="game-stats"><span>Hearts <b id="gameScore">0</b> / 10</span><span>Time <b id="gameTime">20</b></span></div>
+    <div class="game-board" id="gameBoard"></div>
+    <div class="game-message" id="gameMessage">Ready bhai</div>
+    <button class="game-start" id="gameStart" type="button">Start the game ♡</button>
+    <button class="game-again game-hidden" id="gameAgain" type="button">Play again ♡</button>
+  </div>
+</div>
+
+<div class="final-screen" id="finalScreen" aria-hidden="true">
+  <div class="final-inner">
+    <h2>Sweet Dreams</h2>
+    <p>Enjoy your special day bhai</p>
+    <p>Keep smiling and keep being you</p>
+    <div class="love">Love you lots ♡</div>
+    <p>Goodnight meri jaan</p>
+    <button class="final-btn" id="finalClose" type="button">Close the little book</button>
+  </div>
+</div>
+
+<main class="scene">
+  <header class="heading">
+    <div class="eyebrow">a little book made with a lot of feeling</div>
+    <h1>For Ayesha</h1>
+    <p>Turn the pages slowly every page is made for you</p>
+  </header>
+
+  <section class="book-shell" id="bookShell" aria-label="Birthday book">
+    <div class="open-overlay" id="openOverlay" role="button" tabindex="0" aria-label="Open birthday book">
+      <div class="open-card">
+        <span class="flower">🌷</span>
+        <strong>Open the book</strong>
+        <span>there's something waiting inside</span>
+      </div>
+    </div>
+
+    <div class="book" id="book">
+      <article class="panel cover left" aria-hidden="true">
+        <div class="cover-content"><h2>A Little<br>Book <span>for Ayesha</span></h2></div>
+        <div class="cover-deco">✦ ❦ ✦</div>
+      </article>
+      <article class="panel cover right" aria-hidden="true">
+        <div class="cover-content"><h2>Happy<br>Birthday <span>Ayesha</span></h2></div>
+        <div class="cover-deco">♡ ✦ ♡</div>
+      </article>
+
+      <article class="panel left" id="leftPanel">
+        <div class="content" id="leftContent"></div>
+        <div class="page-no" id="leftNo"></div>
+      </article>
+      <article class="panel right" id="rightPanel">
+        <div class="content" id="rightContent"></div>
+        <div class="page-no" id="rightNo"></div>
+      </article>
+      <div class="spine"></div>
+    </div>
+  </section>
+
+  <nav class="controls" aria-label="Book controls">
+    <button id="prev" type="button">← Previous</button>
+    <div class="progress"><span id="spread">1</span> / <span id="total">10</span></div>
+    <button id="next" type="button">Next →</button>
+  </nav>
+  <div class="hint">Use the buttons keyboard arrows or swipe left/right</div>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  const pages = [
+    {
+      left: `<div class="page-inner"><div class="kicker">page one</div><div class="ornament">✦ ❦ ✦</div>
+        <h2 class="title">HAPPY BIRTHDAY AYESHA ♡</h2>
+        <p class="text">Love you so much bhai meri jaan ka birthday aa gaya hai</p>
+        <p class="text">Aaj ka din mere liye bohat hi khas hai kyun ke isi din meri love of my life paida hui thi</p>
+        <p class="text">Aur sach mein dil se thank you aap ke parents ko ke unhon ne itni bari art mujhe di</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s1">🎂</div><div class="sticker s2">🎀</div>
+        <div class="kicker">dil se</div>
+        <p class="quote">Main hamesha thankful rahunga ke aap meri life mein hain</p>
+        <p class="text">Aap ne mujhe sikhaya hai samjhaya hai sambhala hai aur bohat dafa mere liye sab kuch ban gayi hain</p>
+        <p class="text">Mere paas honestly itne words hi nahi hain ke main explain kar sakun ke aap mere liye kya hain</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="sticker s3">🌷</div>
+        <div class="kicker">what you mean to me</div><h2 class="title">Words Are Not Enough</h2>
+        <p class="text">Aap meri life ka woh hissa hain jisko main kisi simple sentence mein explain nahi kar sakta</p>
+        <p class="text">Aap ki presence se mujhe woh comfort milta hai jo har jagah nahi milta</p>
+        <p class="text">Aap ki ek baat mera mood change kar sakti hai aur aap ki khushi mere liye genuinely matter karti hai</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s4">🦋</div>
+        <div class="kicker">aap mere liye</div>
+        <p class="quote">Aap meri poem hain aap meri beloved hain aap meri art hain</p>
+        <p class="text">Aap woh art hain jo main har roz apne dil mein imagine karta hoon</p>
+        <p class="text">Aap meri kahani ka woh beautiful part hain jisko main kabhi lose nahi karna chahta</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">thank you bhai</div>
+        <h2 class="title">For Everything</h2><div class="list">
+          <div>♡ Thank you mujhe sikhane ke liye</div>
+          <div>♡ Thank you mujhe samjhane ke liye</div>
+          <div>♡ Thank you jab mujhe sambhalne wala koi nahi tha tab mere saath rehne ke liye</div>
+          <div>♡ Thank you mere liye apna time dene ke liye</div>
+          <div>♡ Thank you meri choti choti baaton ko bhi important samajhne ke liye</div>
+        </div>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s1">🧸</div>
+        <div class="kicker">ek sach</div><p class="quote">Kabhi kabhi main sochta hoon ke agar aap meri life mein na hoti toh kitni cheezein different hoti</p>
+        <p class="text">Aur phir mujhe realize hota hai ke aap ne meri life mein kitna kuch change kiya hai</p>
+        <p class="text">Aap mere liye sirf ek person nahi hain aap meri comfort hain meri happiness hain aur meri favourite feeling hain</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">a little poetry</div>
+        <div class="ornament">❦</div><p class="quote">Aap meri poem hain<br>Aap meri favourite line hain<br>Aap woh lafz hain<br>jise main kabhi khatam nahi karna chahta</p>
+        <div class="ornament">❦</div><p class="signature">Aap meri story ka sab se pyara part hain</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s2">🌙</div><div class="sticker s5">⭐</div>
+        <div class="kicker">mere dil ki baat</div><p class="text">Aap mere dil tak jane wali seedhiyan hain</p>
+        <p class="text">Har step mujhe aap ke aur kareeb le jata hai</p>
+        <p class="text">Aur pata nahi kab aap mere liye everything ban gayi hain</p>
+        <p class="text">Bas itna pata hai ke main aap ko apni life mein bohat zyada important samajhta hoon</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">birthday wishes</div>
+        <h2 class="title">Aap Ke Liye Meri Dua</h2><div class="list">
+          <div>🌷 Allah aap ko hamesha khush rakhe</div>
+          <div>✨ Aap ki har achi dua qabool ho</div>
+          <div>🦋 Aap ke saare dreams poore hon</div>
+          <div>💌 Aap ko hamesha woh log milen jo aap ki kadar karein</div>
+          <div>🌙 Aap ke dil ko hamesha sukoon mile</div>
+          <div>🎂 Aur aap ka har birthday pichle birthday se zyada beautiful ho</div>
+        </div>
+      </div>`,
+      right: `<div class="page-inner"><div class="kicker">dua</div><p class="quote">Allah aap ko sehat khushi sukoon kamyabi aur bohat lambi beautiful life de</p>
+        <div class="ornament">✦ ♡ ✦</div><p class="text">Allah aap ko har us cheez se nawaze jo aap ke haq mein behtareen ho</p>
+        <p class="text">Aur jab bhi life mushkil ho Allah aap ko strength de aur aap ke saath hamesha asani rakhe</p></div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="sticker s3">☁️</div>
+        <div class="kicker">aap ki smile</div><h2 class="title">Please Always Stay You</h2>
+        <p class="text">Aap ki woh smile jo bina kisi reason ke aa jati hai usko kabhi mat khona</p>
+        <p class="text">Aap ki woh cute si baatein aap ka pagalpan aap ki kindness sab bohat special hai</p>
+        <p class="text">Duniya chahe jo bhi kahe aap ko apni value kabhi nahi bhoolni</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s4">💌</div>
+        <div class="kicker">ek reminder</div><p class="quote">Aap ko har waqt strong banne ki zaroorat nahi hai</p>
+        <p class="text">Kabhi thak jao toh rest karna</p><p class="text">Kabhi ro dena ho toh ro lena</p><p class="text">Aur kabhi bohat khush ho toh poori tarah khush hona</p>
+        <p class="text">Main bas chahta hoon ke aap hamesha apni happiness ko bhi importance dein</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">one simple truth</div>
+        <h2 class="title">I Am Lucky To Have You</h2>
+        <p class="text">Main nahi janta ke maine kya acha kiya tha jo aap meri life mein aayi</p>
+        <p class="text">Lekin main itna zaroor janta hoon ke aap meri life ki sab se precious cheezon mein se ek hain</p>
+        <div class="ornament">♡ ❦ ♡</div><p class="signature">Aap ko khona nahi chahta bhai</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s1">🌸</div>
+        <div class="kicker">thori si poetry</div><p class="quote">Kuch log explain nahi kiye ja sakte<br>sirf feel kiye ja sakte hain</p>
+        <p class="text">Aur aap mere liye bilkul waisi hi hain</p>
+        <p class="text">Aap ki importance ko words mein fit karna mushkil hai kyun ke aap mere liye words se bohat zyada hain</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">please remember</div>
+        <h2 class="title">You Are Loved</h2><p class="text">Kabhi life bohat busy ho jaye aur kabhi aap ko lage ke koi aap ko samajh nahi raha toh bas yaad rakhna ke aap bohat important hain</p>
+        <p class="text">Aap ki existence matter karti hai aur aap ki khushi bhi matter karti hai</p>
+        <p class="text">Aap ko khud ko bhi utni hi kindness deni hai jitni aap dusron ko deti hain</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s2">🎈</div><div class="kicker">aaj ka din</div>
+        <p class="quote">Aaj bas smile karein aur enjoy karein kyun ke aaj meri jaan ka birthday hai</p>
+        <div class="ornament">✦ ✦ ✦</div><p class="signature">Aaj ka din aap ka hai bhai</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">celebrate yourself</div>
+        <div class="sticker s5">🎉</div><h2 class="title">Happy Birthday Meri Jaan</h2>
+        <p class="text">Aaj extra smile karna extra cake khana aur apne liye bhi thora sa time nikalna</p>
+        <p class="text">Aap deserve karti hain ke aap ko celebrate kiya jaye aur aap ko feel ho ke aap kitni special hain</p>
+        <p class="text">Meri taraf se aap ko bohat saara pyaar aur bohat saari duas</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s2">🍰</div><div class="kicker">one more wish</div>
+        <p class="quote">Naya saal e zindagi aap ke liye naye dreams naye moments aur bohat saari khushiyan le kar aaye</p>
+        <div class="ornament">♡ ✦ ♡</div><p class="text">Jo cheez aap ke liye nahi hai woh aap se door ho aur jo aap ke liye hai woh aap tak zaroor aaye</p>
+      </div>`
+    },
+    {
+      left: `<div class="page-inner"><div class="kicker">the last letter</div>
+        <h2 class="title">For Ayesha Always</h2>
+        <p class="text">Aap meri poem hain aap meri beloved hain aap meri art hain jo main har roz apne dil mein imagine karta hoon</p>
+        <p class="text">Aap mere dil tak jane wali seedhiyan hain aur meri life ka woh part hain jise main dil se apna samajhta hoon</p>
+        <p class="text">Thank you bhai meri life mein aane ke liye aur mujhe itna kuch sikhane samjhane aur sambhalne ke liye</p>
+        <p class="signature">Happy Birthday Ayesha ♡</p>
+      </div>`,
+      right: `<div class="page-inner"><div class="sticker s3">🩷</div><div class="sticker s4">🎂</div>
+        <p class="big">Happy<br>Birthday<small>Ayesha ♡</small></p>
+        <div class="ornament" style="margin-top:28px">✦ ❦ ✦</div>
+        <p class="text">Love you so much bhai</p>
+        <p class="text">Meri jaan ka birthday bohat bohat mubarak ho</p>
+        <p class="signature">Aap hamesha khush rahein</p>
+      </div>`
+    }
+  ];
+
+  const left = document.getElementById('leftPanel');
+  const right = document.getElementById('rightPanel');
+  const leftContent = document.getElementById('leftContent');
+  const rightContent = document.getElementById('rightContent');
+  const leftNo = document.getElementById('leftNo');
+  const rightNo = document.getElementById('rightNo');
+  const next = document.getElementById('next');
+  const prev = document.getElementById('prev');
+  const spread = document.getElementById('spread');
+  const total = document.getElementById('total');
+  const overlay = document.getElementById('openOverlay');
+
+  let index = 0, busy = false, opened = false, touchX = null;
+  total.textContent = pages.length;
+
+  function render(i){
+    const p = pages[i];
+    leftContent.innerHTML = p.left;
+    rightContent.innerHTML = p.right;
+    leftNo.textContent = String(i * 2 + 1).padStart(2,'0');
+    rightNo.textContent = String(i * 2 + 2).padStart(2,'0');
+    spread.textContent = i + 1;
+    prev.disabled = i === 0;
+    next.disabled = false;
+    leftContent.scrollTop = 0;
+    rightContent.scrollTop = 0;
+  }
+
+  function flip(dir){
+    if(!opened || busy) return;
+    if(dir === 'next' && index === pages.length - 1){ showGame(); return; }
+    const target = dir === 'next' ? index + 1 : index - 1;
+    if(target < 0 || target >= pages.length) return;
+    busy = true;
+    const panel = dir === 'next' ? right : left;
+    panel.classList.remove('flip-next','flip-prev');
+    void panel.offsetWidth;
+    panel.classList.add(dir === 'next' ? 'flip-next' : 'flip-prev');
+    setTimeout(() => {
+      index = target;
+      render(index);
+      panel.classList.remove('flip-next','flip-prev');
+      busy = false;
+    }, 700);
+  }
+
+  const birthdayReveal = document.getElementById('birthdayReveal');
+  const gameScreen = document.getElementById('gameScreen');
+  const finalScreen = document.getElementById('finalScreen');
+  const gameBoard = document.getElementById('gameBoard');
+  const gameScore = document.getElementById('gameScore');
+  const gameTime = document.getElementById('gameTime');
+  const gameMessage = document.getElementById('gameMessage');
+  const gameStart = document.getElementById('gameStart');
+  const gameAgain = document.getElementById('gameAgain');
+  const finalClose = document.getElementById('finalClose');
+  let gameTimer = null, gameSpawn = null, score = 0, timeLeft = 20, gameActive = false, gameFinished = false;
+
+  function showBirthdayReveal(){
+    birthdayReveal.classList.add('show');
+    birthdayReveal.setAttribute('aria-hidden','false');
+    setTimeout(() => {
+      birthdayReveal.classList.remove('show');
+      birthdayReveal.classList.add('hide');
+      birthdayReveal.setAttribute('aria-hidden','true');
+    }, 4300);
+  }
+
+  function openBook(){
+    if(opened) return;
+    opened = true;
+    overlay.classList.add('hide');
+    setTimeout(() => overlay.remove(), 800);
+    setTimeout(showBirthdayReveal, 350);
+  }
+
+  function clearGame(){
+    clearInterval(gameTimer);
+    clearInterval(gameSpawn);
+    gameTimer = null; gameSpawn = null; gameActive = false;
+    gameBoard.innerHTML = '';
+  }
+
+  function finishGame(won){
+    clearGame();
+    gameFinished = true;
+    gameMessage.textContent = won ? 'You caught all my hearts bhai ♡' : 'You still caught enough love for today ♡';
+    gameStart.classList.add('game-hidden');
+    gameAgain.classList.remove('game-hidden');
+    setTimeout(() => {
+      gameScreen.classList.remove('show');
+      gameScreen.classList.add('hide');
+      setTimeout(() => {
+        finalScreen.classList.add('show');
+        finalScreen.setAttribute('aria-hidden','false');
+      }, 700);
+    }, 1800);
+  }
+
+  function spawnHeart(){
+    if(!gameActive) return;
+    const h = document.createElement('button');
+    h.className = 'heart-target'; h.type = 'button'; h.textContent = Math.random() > .5 ? '♡' : '💗';
+    const maxX = Math.max(20, gameBoard.clientWidth - 58);
+    const maxY = Math.max(20, gameBoard.clientHeight - 58);
+    h.style.left = (10 + Math.random() * Math.max(10,maxX-10)) + 'px';
+    h.style.top = (10 + Math.random() * Math.max(10,maxY-10)) + 'px';
+    h.addEventListener('click', () => {
+      if(!gameActive) return;
+      score++; gameScore.textContent = score; h.remove();
+      gameMessage.textContent = score >= 7 ? 'Bas thore se aur bhai ♡' : 'Got one ♡';
+      if(score >= 10) finishGame(true);
+    }, {once:true});
+    gameBoard.appendChild(h);
+    setTimeout(() => h.remove(), 1100);
+  }
+
+  function startGame(){
+    clearGame(); score = 0; timeLeft = 20; gameFinished = false;
+    gameScore.textContent = '0'; gameTime.textContent = '20';
+    gameMessage.textContent = 'Catch them bhai ♡';
+    gameStart.classList.add('game-hidden'); gameAgain.classList.add('game-hidden');
+    gameActive = true;
+    spawnHeart();
+    gameSpawn = setInterval(spawnHeart, 700);
+    gameTimer = setInterval(() => {
+      timeLeft--; gameTime.textContent = timeLeft;
+      if(timeLeft <= 0) finishGame(false);
+    },1000);
+  }
+
+  function showGame(){
+    if(gameFinished) return;
+    gameScreen.classList.remove('hide'); gameScreen.classList.add('show');
+    gameScreen.setAttribute('aria-hidden','false');
+  }
+
+  gameStart.addEventListener('click', startGame);
+  gameAgain.addEventListener('click', startGame);
+  finalClose.addEventListener('click', () => {
+    finalScreen.classList.remove('show');
+    document.body.classList.add('fade-away');
+    setTimeout(() => { document.body.innerHTML = ''; }, 2600);
+  });
+
+  // The final spread opens the game instead of leaving the book at a static ending
+  // The final Next action opens the little game
+
+
+  overlay.addEventListener('click', openBook);
+  overlay.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBook(); }
+  });
+  next.addEventListener('click', () => flip('next'));
+  prev.addEventListener('click', () => flip('prev'));
+
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight') flip('next');
+    else if(e.key === 'ArrowLeft') flip('prev');
+    else if(e.key === 'Enter' && !opened) openBook();
+  });
+
+  document.addEventListener('touchstart', e => {
+    if(e.touches.length === 1) touchX = e.touches[0].clientX;
+  }, {passive:true});
+  document.addEventListener('touchend', e => {
+    if(touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 55) flip(dx < 0 ? 'next' : 'prev');
+    touchX = null;
+  }, {passive:true});
+
+  render(0);
+})();
+</script>
+</body>
+</html>
